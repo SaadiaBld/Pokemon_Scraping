@@ -33,19 +33,19 @@ class PokspiderSpider(scrapy.Spider):
 
     def parse_pok(self, response):
 
-        pokemon_item = PokemonItem
+        pokemon_item = PokemonItem()
 
-        pokemon_item['url']= response.url,
-        pokemon_item["name"]= response.css('div.summary h1::text').extract(),
-        pokemon_item["price"]=response.css('div div.summary p span.amount::text').extract(),
-        pokemon_item["description"]= response.css('div div.summary div.woocommerce-product-details__short-description p::text').extract(),            
-        pokemon_item["stock"]= response.css('div div.summary p.stock::text').extract(),
-        pokemon_item["sku"]= response.css('div div.summary div.product_meta span span.sku::text').extract(),
-        pokemon_item["categories"]= response.css('div div.summary div.product_meta span.posted_in a::text').extract(),
-        pokemon_item["tags"]= response.css('div div.summary div.product_meta span.tagged_as a::text').extract(),
-        pokemon_item["weight"]= response.css(' div.woocommerce-Tabs-panel table.shop_attributes tr td.product_weight::text').extract(),
-        pokemon_item["dimensions"]= response.css(' div.woocommerce-Tabs-panel table.shop_attributes tr td.product_dimensions::text').extract(),
+        #pokemon_item['url']= response.url,
+        pokemon_item["name"]= response.css('div.summary h1.product_title::text').extract_first()
+        pokemon_item["price"]=response.css('div div.summary p span.amount::text').extract_first()
+        pokemon_item["description"]= response.css('div div.summary div.woocommerce-product-details__short-description p::text').extract()            
+        pokemon_item["stock"]= response.css('div div.summary p.stock::text').extract_first()
+        pokemon_item["sku"]= response.css('div div.summary div.product_meta span span.sku::text').extract_first()
+        pokemon_item["categories"]= response.css('div div.summary div.product_meta span.posted_in a::text').extract()
+        pokemon_item["tags"]= response.css('div div.summary div.product_meta span.tagged_as a::text').extract()
+        pokemon_item["weight"]= response.css(' div.woocommerce-Tabs-panel table.shop_attributes tr td.product_weight::text').extract_first()
+        pokemon_item["dimensions"]= response.css(' div.woocommerce-Tabs-panel table.shop_attributes tr td.product_dimensions::text').extract_first()
         
-        yield PokemonItem
+        yield pokemon_item
         
         
