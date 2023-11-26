@@ -43,6 +43,8 @@ class PokspiderSpider(scrapy.Spider):
         pokemon_item["sku"]= response.css('div div.summary div.product_meta span span.sku::text').extract(),
         pokemon_item["categories"]= response.css('div div.summary div.product_meta span.posted_in a::text').extract(),
         pokemon_item["tags"]= response.css('div div.summary div.product_meta span.tagged_as a::text').extract(),
+        pokemon_item["weight"]= response.css(' div.woocommerce-Tabs-panel table.shop_attributes tr td.product_weight::text').extract(),
+        pokemon_item["dimensions"]= response.css(' div.woocommerce-Tabs-panel table.shop_attributes tr td.product_dimensions::text').extract(),
         
         yield PokemonItem
         
