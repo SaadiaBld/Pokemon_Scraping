@@ -13,6 +13,10 @@ SPIDER_MODULES = ["pokemon.spiders"]
 NEWSPIDER_MODULE = "pokemon.spiders"
 
 
+FEEDS = {
+    'pokemondata.sql':{'format': 'sql'}
+}
+
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = "pokemon (+http://www.yourdomain.com)"
 

@@ -47,8 +47,47 @@ class PokemonPipeline:
         
 
         #elimine pokemon de categories
-        categorie_liste = adapter.get('categories', [])
-        categories_filtre = [category.strip() for category in ",".join(categorie_liste).split(',') if category.strip()]
-        adapter['categories'] = categories_filtre
+        categorie_liste = adapter.get('categories')
+        #transforme categories en liste pour supprimer "pokemon"
+        categorie_liste = [element.strip() for element in categorie_liste.split(',')] 
+        categorie_liste = [cat for cat in categorie_liste if cat.lower() != "pokemon"] 
+        adapter['categories'] = ', '.join(categorie_liste)      
+
 
         return item
+    
+
+import mysql.connector
+
+class SaveToMySQLPipeLine:
+
+    def __init__(self):
+    self.conn = mysql.connector.connect(
+        host = 'localhost',
+        user = 'root',
+        password = 'Plasma2020@',
+        database = 'pokemon'
+    )
+
+    #create cursor, to execute commands
+    self.cur = self.conn.cursor()
+
+    #create pokemon table
+    self.cur.execute("""
+    CREATE TABLE IF NOT EXISTS pokemon(
+        id INT NOT NULL AUTO_INCREMENT,
+        name VARCHAR(255),
+        price DECIMAL,
+        description VARCHAR(255),
+        stock INTEGER,
+        sku INTEGER,
+        categories VARCHAR(255),
+        tags VARCHAR(255),
+        weight DECIMAL,
+        height DECIMAL,
+        width DECIMAL, 
+        depth DECIMAL, 
+        PRIMARY KEY (id)
+)
+""")
+

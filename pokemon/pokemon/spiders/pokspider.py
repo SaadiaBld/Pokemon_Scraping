@@ -13,6 +13,12 @@ class PokspiderSpider(scrapy.Spider):
         Rule(LinkExtractor(allow=(r'page/\d+','shop/')), callback='parse_pok', follow=True)
         )
     
+    custom_settings = {
+        'FEEDS': {
+            'pokemondata.sql':{'format': 'sql', 'overwrite': True},
+        }
+    }
+
 
     def start_requests(self):
         URL = 'https://scrapeme.live/shop/'
