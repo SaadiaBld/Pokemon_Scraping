@@ -14,7 +14,7 @@ NEWSPIDER_MODULE = "pokemon.spiders"
 
 
 FEEDS = {
-    'pokemondata.sql':{'format': 'sql'}
+    'pokemondata.json':{'format': 'json'}
 }
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
@@ -68,6 +68,7 @@ ROBOTSTXT_OBEY = True
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
    "pokemon.pipelines.PokemonPipeline": 300,
+   "pokemon.pipelines.SaveToMySQLPipeLine": 400,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)

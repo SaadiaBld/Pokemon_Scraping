@@ -15,6 +15,7 @@ class PokemonItem(scrapy.Item):
     categories = scrapy.Field()
     tags = scrapy.Field()
     weight = scrapy.Field()
+    dimensions = scrapy.Field()
     height = scrapy.Field()
     width = scrapy.Field()
     length = scrapy.Field()

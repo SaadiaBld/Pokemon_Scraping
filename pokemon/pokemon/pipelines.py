@@ -53,6 +53,11 @@ class PokemonPipeline:
         categorie_liste = [cat for cat in categorie_liste if cat.lower() != "pokemon"] 
         adapter['categories'] = ', '.join(categorie_liste)      
 
+        #valeur numérique pour weight (supprime "kg")
+        weight_string = adapter.get("weight")
+        if weight_string:
+            weight_value = float(weight_string.split()[0])
+            adapter["weight"] = weight_value
 
         return item
     
@@ -62,32 +67,73 @@ import mysql.connector
 class SaveToMySQLPipeLine:
 
     def __init__(self):
-    self.conn = mysql.connector.connect(
-        host = 'localhost',
-        user = 'root',
-        password = 'Plasma2020@',
-        database = 'pokemon'
-    )
+        self.conn = mysql.connector.connect(
+            host = 'localhost',
+            user = 'root',
+            password = '',
+            database = 'pokemons'
+            )
 
     #create cursor, to execute commands
-    self.cur = self.conn.cursor()
+        self.cur = self.conn.cursor()
 
     #create pokemon table
-    self.cur.execute("""
-    CREATE TABLE IF NOT EXISTS pokemon(
-        id INT NOT NULL AUTO_INCREMENT,
-        name VARCHAR(255),
-        price DECIMAL,
-        description VARCHAR(255),
-        stock INTEGER,
-        sku INTEGER,
-        categories VARCHAR(255),
-        tags VARCHAR(255),
-        weight DECIMAL,
-        height DECIMAL,
-        width DECIMAL, 
-        length DECIMAL, 
-        PRIMARY KEY (id)
-)
-""")
+        self.cur.execute("""
+        CREATE TABLE IF NOT EXISTS pokemons(
+            id INT NOT NULL AUTO_INCREMENT,
+            name VARCHAR(255),
+            price DECIMAL,
+            description VARCHAR(255),
+            stock INTEGER,
+            sku INTEGER,
+            categories VARCHAR(255),
+            tags VARCHAR(255),
+            weight DECIMAL,
+            height DECIMAL,
+            width DECIMAL, 
+            length DECIMAL, 
+            PRIMARY KEY (id)
+        )
+        """)
+
+
+    def process_item(self, item, spider):
+
+        self.cur.execute("""insert into pokemons (
+            name, 
+            price,
+            description,
+            stock,
+            sku,
+            categories,
+            tags,
+            weight,
+            height,
+            width,
+            length
+            ) values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s )""", (
+            item["name"],
+            item["price"],
+            item["description"],
+            item["stock"],
+            item["sku"],
+            item["categories"],
+            item["tags"],
+            item["weight"],
+            item["width"],
+            item["length"],
+            item["height"]
+        ))
+
+        self.conn.commit()
+        return item
+    
+
+    def close_spider(self,spider):
+
+        self.cur.close()
+        self.conn.close()
+
+
+
 

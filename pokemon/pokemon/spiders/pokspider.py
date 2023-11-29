@@ -57,9 +57,9 @@ class PokspiderSpider(scrapy.Spider):
 
             height, width, length = map(int, [element.split()[0] for element in elements])
        
-        pokemon_item["height"]: height
-        pokemon_item["width"]: width
-        pokemon_item["length"]: length
+            pokemon_item["height"]= height
+            pokemon_item["width"]= width
+            pokemon_item["length"]= length
         
        
         yield pokemon_item
