@@ -52,6 +52,16 @@ class PokspiderSpider(scrapy.Spider):
         pokemon_item["weight"]= response.css(' div.woocommerce-Tabs-panel table.shop_attributes tr td.product_weight::text').extract_first()
         pokemon_item["dimensions"]= response.css(' div.woocommerce-Tabs-panel table.shop_attributes tr td.product_dimensions::text').extract_first()
         
+        if pokemon_item["dimensions"]:
+            elements = pokemon_item["dimensions"].split(' x ')
+
+            height, width, length = map(int, [element.split()[0] for element in elements])
+       
+        pokemon_item["height"]: height
+        pokemon_item["width"]: width
+        pokemon_item["length"]: length
+        
+       
         yield pokemon_item
         
         

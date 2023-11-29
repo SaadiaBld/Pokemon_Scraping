@@ -86,7 +86,7 @@ class SaveToMySQLPipeLine:
         weight DECIMAL,
         height DECIMAL,
         width DECIMAL, 
-        depth DECIMAL, 
+        length DECIMAL, 
         PRIMARY KEY (id)
 )
 """)
